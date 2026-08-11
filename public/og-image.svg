@@ -1,0 +1,30 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a0e17"/>
+      <stop offset="1" stop-color="#111a2c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1198" height="628" fill="none" stroke="#232b3d" stroke-width="2"/>
+
+  <text x="80" y="180" font-family="JetBrains Mono, ui-monospace, monospace" font-size="22" fill="#6f93ff" letter-spacing="2">SENIOR FRONTEND ENGINEER</text>
+
+  <text x="80" y="270" font-family="Inter, ui-sans-serif, sans-serif" font-size="72" font-weight="800" fill="#eef1f7">Sai Krishna</text>
+
+  <text x="80" y="330" font-family="Inter, ui-sans-serif, sans-serif" font-size="28" font-weight="500" fill="#c3c9d6">React.js &#8226; TypeScript &#8226; Next.js &#8226; Micro Frontends</text>
+
+  <text x="80" y="430" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" fill="#8891a1">5+ years building scalable web applications across</text>
+  <text x="80" y="465" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" fill="#8891a1">healthcare, AI-enabled, and enterprise SaaS platforms</text>
+
+  <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="18" fill="#6f93ff">
+    <rect x="80" y="500" width="140" height="40" rx="8" fill="#131a29" stroke="#232b3d"/>
+    <text x="150" y="525" text-anchor="middle">React</text>
+    <rect x="234" y="500" width="160" height="40" rx="8" fill="#131a29" stroke="#232b3d"/>
+    <text x="314" y="525" text-anchor="middle">TypeScript</text>
+    <rect x="408" y="500" width="190" height="40" rx="8" fill="#131a29" stroke="#232b3d"/>
+    <text x="503" y="525" text-anchor="middle">Micro Frontends</text>
+    <rect x="612" y="500" width="110" height="40" rx="8" fill="#131a29" stroke="#232b3d"/>
+    <text x="667" y="525" text-anchor="middle">AI/ML</text>
+  </g>
+</svg>
