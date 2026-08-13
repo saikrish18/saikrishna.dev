@@ -1,6 +1,7 @@
 import { contact, profile } from '../../data/profile'
 import Section from '../ui/Section'
 import Button from '../ui/Button'
+import CopyEmailButton from '../ui/CopyEmailButton'
 
 export default function Contact() {
   return (
@@ -17,8 +18,12 @@ export default function Contact() {
             LinkedIn
           </Button>
           <Button href={profile.resumeUrl} variant="ghost" download>
-            Download CV
+            Download Resume
           </Button>
+        </div>
+
+        <div className="mt-5">
+          <CopyEmailButton email={profile.email} />
         </div>
       </div>
     </Section>

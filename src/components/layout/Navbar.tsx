@@ -1,12 +1,17 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { navLinks, profile } from '../../data/profile'
 import { useActiveSection } from '../../hooks/useActiveSection'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import ThemeToggle from './ThemeToggle'
 import Container from '../ui/Container'
 
+const SECTION_IDS = navLinks.map((link) => link.href.replace('#', ''))
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const activeId = useActiveSection(navLinks.map((link) => link.href.replace('#', '')))
+  const activeId = useActiveSection(SECTION_IDS)
+  const reducedMotion = usePrefersReducedMotion()
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur-md">
@@ -20,7 +25,7 @@ export default function Navbar() {
             SK<span className="text-[var(--color-accent)]">.</span>dev
           </a>
 
-          <ul className="hidden items-center gap-8 md:flex">
+          <ul className="hidden items-center gap-6 lg:flex">
             {navLinks.map((link) => {
               const isActive = activeId === link.href.replace('#', '')
               return (
@@ -38,18 +43,18 @@ export default function Navbar() {
             })}
           </ul>
 
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             <ThemeToggle />
             <a
               href={profile.resumeUrl}
               download
               className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
-              Download CV
+              Download Resume
             </a>
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
               type="button"
@@ -66,29 +71,37 @@ export default function Navbar() {
         </nav>
       </Container>
 
-      {open && (
-        <div className="border-t border-[var(--color-border)] bg-[var(--color-bg)] md:hidden">
-          <Container className="flex flex-col gap-1 py-4">
-            {navLinks.map((link) => (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="overflow-hidden border-t border-[var(--color-border)] bg-[var(--color-bg)] lg:hidden"
+            initial={reducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            animate={reducedMotion ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
+            exit={reducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+          >
+            <Container className="flex flex-col gap-1 py-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--color-body)] hover:bg-[var(--color-surface)]"
+                >
+                  {link.label}
+                </a>
+              ))}
               <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--color-body)] hover:bg-[var(--color-surface)]"
+                href={profile.resumeUrl}
+                download
+                className="mt-2 rounded-lg bg-[var(--color-accent)] px-3 py-2.5 text-center text-sm font-semibold text-white"
               >
-                {link.label}
+                Download Resume
               </a>
-            ))}
-            <a
-              href={profile.resumeUrl}
-              download
-              className="mt-2 rounded-lg bg-[var(--color-accent)] px-3 py-2.5 text-center text-sm font-semibold text-white"
-            >
-              Download CV
-            </a>
-          </Container>
-        </div>
-      )}
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

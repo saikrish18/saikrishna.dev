@@ -32,6 +32,7 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
   }
 
   html {
@@ -45,8 +46,6 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-    width: 100%;
   }
 
   ::selection {
@@ -68,5 +67,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes hub-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
