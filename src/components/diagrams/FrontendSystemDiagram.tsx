@@ -27,7 +27,7 @@ export default function FrontendSystemDiagram() {
         <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-        <span className="ml-2 font-mono text-[11px] text-[var(--color-muted)]">frontend-system.tsx</span>
+        <span className="ml-2 font-mono text-[11px] text-[var(--color-muted)]">frontend_system.tsx</span>
       </div>
 
       <ol className="relative" aria-label="Frontend system architecture layers — each links to the relevant section">
