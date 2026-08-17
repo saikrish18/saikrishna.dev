@@ -1,6 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
-import { fetchEngineeringFocus } from '../../api/engineeringFocusApi'
-import type { EngineeringFocus as EngineeringFocusEntry } from '../../api/types'
+import { engineeringDomains, type EngineeringDomain } from '../../data/profile'
 import Container from '../ui/Container'
 import Badge from '../ui/Badge'
 import { useInView } from '../../hooks/useInView'
@@ -103,7 +101,7 @@ function TestingPipelineVisual() {
   )
 }
 
-function DomainCard({ domain, number }: { domain: EngineeringFocusEntry; number: string }) {
+function DomainCard({ domain }: { domain: EngineeringDomain }) {
   return (
     <div className="group/card relative flex h-full flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]/60 hover:shadow-lg sm:p-6">
       <span
@@ -111,20 +109,27 @@ function DomainCard({ domain, number }: { domain: EngineeringFocusEntry; number:
         className="pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 rounded-t-xl bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-2)] transition-transform duration-300 group-hover/card:scale-x-100"
       />
 
-      <span className="font-mono text-xs font-semibold text-[var(--color-accent)]">{number}</span>
+      <div className="flex items-start justify-between gap-3">
+        <span className="font-mono text-xs font-semibold text-[var(--color-accent)]">{domain.number}</span>
+        {domain.metaNote && (
+          <span className="text-right font-mono text-[10px] leading-tight text-[var(--color-muted)] transition-colors duration-200 group-hover/card:text-[var(--color-accent)]">
+            {domain.metaNote}
+          </span>
+        )}
+      </div>
 
       <h3 className="mt-3 text-base font-semibold text-[var(--color-ink)] sm:text-lg">{domain.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{domain.description}</p>
+      <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{domain.tagline}</p>
 
       <div className="mt-4 flex flex-wrap gap-1.5">
-        {domain.technologies.map((tech) => (
-          <Badge key={tech.id}>{tech.name}</Badge>
+        {domain.tech.map((tech) => (
+          <Badge key={tech}>{tech}</Badge>
         ))}
       </div>
 
-      {domain.icon === 'microFrontends' && <MicroFrontendsVisual />}
-      {domain.icon === 'ai' && <AiIntegrationVisual />}
-      {domain.icon === 'testing' && <TestingPipelineVisual />}
+      {domain.visual === 'microFrontends' && <MicroFrontendsVisual />}
+      {domain.visual === 'ai' && <AiIntegrationVisual />}
+      {domain.visual === 'testing' && <TestingPipelineVisual />}
     </div>
   )
 }
@@ -133,11 +138,6 @@ export default function EngineeringFocus() {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0, rootMargin: '0px' })
   const reducedMotion = usePrefersReducedMotion()
   const revealed = reducedMotion || inView
-
-  const { data: domains, isLoading, isError } = useQuery({
-    queryKey: ['engineering-focus'],
-    queryFn: fetchEngineeringFocus,
-  })
 
   return (
     <section id="engineering" className="scroll-mt-24 bg-[var(--color-surface)]/40 py-20 sm:py-28">
@@ -156,38 +156,29 @@ export default function EngineeringFocus() {
           </p>
         </div>
 
-        {isLoading && (
-          <div className="mt-14 flex min-h-[200px] items-center justify-center">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)]" />
+        <div
+          ref={ref}
+          className={`mt-14 transition-all duration-700 ${revealed ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+        >
+          <EngineeringHub />
+
+          <div aria-hidden="true" className="mx-auto hidden h-8 w-px bg-[var(--color-border)] lg:block" />
+          <div aria-hidden="true" className="mx-auto hidden h-px max-w-4xl bg-[var(--color-border)] lg:block" />
+
+          <p className="sr-only">Six engineering domains build on this React and TypeScript foundation:</p>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {engineeringDomains.map((domain, index) => (
+              <div key={domain.id} className={`group/branch relative lg:pt-4 ${GRID_SPAN[index]}`}>
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-0 hidden h-4 w-px -translate-x-1/2 bg-[var(--color-border)] transition-colors duration-200 group-hover/branch:bg-[var(--color-accent)] lg:block"
+                />
+                <DomainCard domain={domain} />
+              </div>
+            ))}
           </div>
-        )}
-        {isError && <p className="mt-14 text-sm text-[var(--color-muted)]">Unable to load engineering focus right now.</p>}
-
-        {domains && (
-          <div
-            ref={ref}
-            className={`mt-14 transition-all duration-700 ${revealed ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            <EngineeringHub />
-
-            <div aria-hidden="true" className="mx-auto hidden h-8 w-px bg-[var(--color-border)] lg:block" />
-            <div aria-hidden="true" className="mx-auto hidden h-px max-w-4xl bg-[var(--color-border)] lg:block" />
-
-            <p className="sr-only">Six engineering domains build on this React and TypeScript foundation:</p>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-              {domains.map((domain, index) => (
-                <div key={domain.id} className={`group/branch relative lg:pt-4 ${GRID_SPAN[index % GRID_SPAN.length]}`}>
-                  <span
-                    aria-hidden="true"
-                    className="absolute left-1/2 top-0 hidden h-4 w-px -translate-x-1/2 bg-[var(--color-border)] transition-colors duration-200 group-hover/branch:bg-[var(--color-accent)] lg:block"
-                  />
-                  <DomainCard domain={domain} number={String(index + 1).padStart(2, '0')} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        </div>
       </Container>
     </section>
   )

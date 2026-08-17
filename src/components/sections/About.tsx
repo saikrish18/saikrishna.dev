@@ -1,17 +1,12 @@
-import { engineeringPrinciples } from '../../data/profile'
-import { useProfile } from '../../hooks/useProfile'
-import { splitParagraphs } from '../../lib/textUtils'
+import { about, engineeringPrinciples } from '../../data/profile'
 import Section from '../ui/Section'
 
 export default function About() {
-  const { data: profile } = useProfile()
-  const paragraphs = splitParagraphs(profile?.longBio ?? null)
-
   return (
     <Section id="about" eyebrow="About" title="Frontend engineering, applied to real products">
       <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-5">
-          {paragraphs.map((paragraph) => (
+          {about.paragraphs.map((paragraph) => (
             <p key={paragraph} className="text-base leading-relaxed text-[var(--color-body)] sm:text-lg">
               {paragraph}
             </p>

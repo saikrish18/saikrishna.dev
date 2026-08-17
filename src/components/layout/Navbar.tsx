@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { navLinks } from '../../data/profile'
+import { navLinks, profile } from '../../data/profile'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
-import { useProfile } from '../../hooks/useProfile'
 import ThemeToggle from './ThemeToggle'
 import Container from '../ui/Container'
 
@@ -13,7 +12,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const activeId = useActiveSection(SECTION_IDS)
   const reducedMotion = usePrefersReducedMotion()
-  const { data: profile } = useProfile()
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur-md">
@@ -22,7 +20,7 @@ export default function Navbar() {
           <a
             href="#top"
             className="font-mono text-sm font-semibold tracking-tight text-[var(--color-ink)]"
-            aria-label={profile ? `${profile.name} — home` : 'Home'}
+            aria-label={`${profile.name} — home`}
           >
             SK<span className="text-[var(--color-accent)]">.</span>dev
           </a>
@@ -48,7 +46,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-3 lg:flex">
             <ThemeToggle />
             <a
-              href={profile?.resumeUrl ?? '/Sai-Krishna-Resume.pdf'}
+              href={profile.resumeUrl}
               download
               className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
@@ -94,7 +92,7 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href={profile?.resumeUrl ?? '/Sai-Krishna-Resume.pdf'}
+                href={profile.resumeUrl}
                 download
                 className="mt-2 rounded-lg bg-[var(--color-accent)] px-3 py-2.5 text-center text-sm font-semibold text-white"
               >
